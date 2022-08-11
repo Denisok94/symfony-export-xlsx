@@ -7,6 +7,7 @@
             "email": "denisok94@inbox.ru"
         }
     ],
+    "version": "0.0.1",
     "require": {
         "phpoffice/phpspreadsheet": "^1.23"
     },
