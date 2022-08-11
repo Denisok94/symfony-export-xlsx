@@ -1,6 +1,8 @@
 {
     "name": "denisok94/symfony-export-xlsx",
-    "type": "symfony-bundle",
+    "description": "Symfony export for excel",
+    "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Denisok94",
