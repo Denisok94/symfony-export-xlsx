@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
  * ```php
  * $fileName = 'my_first_excel_symfony4.xlsx';
  * $temp_file = tempnam(sys_get_temp_dir(), $fileName);
- * $export->setFileName($temp_file)->open();
+ * $export->setFile($temp_file)->open();
  * $test = [
  *  ['header1' => 'value1','header2' => 'value2','header3' => 'value3'], 
  *  ['header1' => 'value3','header2' => 'value4','header3' => 'value5']
@@ -20,7 +20,8 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
  * $export->close();
  * return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
  * ```
- * @package XDContents\EventModuleBundle\Service
+ * @link https://github.com/Denisok94/symfony-export-xlsx
+ * @package Denisok94\SymfonyExportXlsxBundle\Service
  */
 class Xlsx
 {
@@ -43,7 +44,7 @@ class Xlsx
     /** @var array */
     private $headerColumns = [];
     /** @var string */
-    private $filename;
+    private $file;
     /** @var int */
     private $position;
 
@@ -57,23 +58,23 @@ class Xlsx
     }
 
     /**
-     * @param string $filename
+     * @param string $file
      * @return self
      * 
      * ```php
      * $fileName = 'my_first_excel_symfony4.xlsx';
      * $temp_file = tempnam(sys_get_temp_dir(), $fileName);
-     * $export->setFileName($temp_file);
+     * $export->setFile($temp_file);
      * ```
      */
-    public function setFileName(string $filename): self
+    public function setFile(string $file): self
     {
-        $this->filename = $filename;
+        $this->file = $file;
         return $this;
     }
 
     /**
-     * @param string $dateTimeFormat
+     * @param string $dateTimeFormat  ~'Y-m-d H:i:s'
      * @return self
      */
     public function setDateTimeFormat(string $dateTimeFormat): self
@@ -88,22 +89,6 @@ class Xlsx
     public function getDateTimeFormat(): string
     {
         return $this->dateTimeFormat;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDefaultMimeType(): string
-    {
-        return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    }
-
-    /**
-     * @return string
-     */
-    public function getFormat(): string
-    {
-        return 'xlsx';
     }
 
     //-------------------------------------
@@ -175,13 +160,14 @@ class Xlsx
     public function close()
     {
         $writer = IOFactory::createWriter($this->phpExcelObject, 'Xlsx');
-        $writer->save($this->filename);
+        $writer->save($this->file);
     }
 
     //-------------------------------------
 
     /**
-     * @return Spreadsheet
+     * {@inheritdoc}
+     * @link https://phpoffice.github.io/PhpSpreadsheet/namespaces/phpoffice-phpspreadsheet.html
      */
     public function getSpreadsheet()
     {
@@ -190,6 +176,7 @@ class Xlsx
 
     /**
      * {@inheritdoc}
+     * @link https://phpoffice.github.io/PhpSpreadsheet/namespaces/phpoffice-phpspreadsheet-worksheet.html
      */
     public function getActiveSheet()
     {
@@ -198,6 +185,7 @@ class Xlsx
 
     /**
      * {@inheritdoc}
+     * @link https://phpoffice.github.io/PhpSpreadsheet/classes/PhpOffice-PhpSpreadsheet-Document-Properties.html
      */
     public function getProperties()
     {

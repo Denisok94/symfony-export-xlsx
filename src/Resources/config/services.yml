@@ -4,7 +4,6 @@ services:
         autoconfigure: true
         public: true
 
-        
     Denisok94\SymfonyExportXlsxBundle\:
         resource: '../../*'
-        exclude: '../../{Admin,Controller,DependencyInjection,Entity,Event,Resources}'
+        exclude: '../../{DependencyInjection,Resources}'
