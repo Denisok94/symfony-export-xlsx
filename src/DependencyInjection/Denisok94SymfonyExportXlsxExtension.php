@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Denisok94\SymfonyExportXlsxBundle\DependencyInjection;
@@ -9,10 +8,10 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
- * Class Denisok94SymfonyExportXlsx
+ * Class Denisok94SymfonyExportXlsxExtension
  * @package Denisok94\SymfonyExportXlsxBundle\DependencyInjection
  */
-class Denisok94SymfonyExportXlsx extends Extension
+class Denisok94SymfonyExportXlsxExtension extends Extension
 {
     /**
      * @param array            $configs
