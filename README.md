@@ -1,4 +1,8 @@
+The main idea is taken from [XlsxWriter.php](https://gist.github.com/kunicmarko20/e0292280344761efbc7ff376f7080fec). 
 
+Except:
+- PHPExcel has been replaced with PHPOffice\Php Spreadsheet;
+- The class is used as a service to be able to use it anywhere and make changes to the file.
 
 
 # install
