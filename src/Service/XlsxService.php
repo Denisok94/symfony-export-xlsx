@@ -6,7 +6,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 /**
- * Class Xlsx
+ * Class XlsxService
  * 
  * ```php
  * $fileName = 'my_first_excel_symfony4.xlsx';
@@ -23,9 +23,9 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
  * @link https://github.com/Denisok94/symfony-export-xlsx
  * @package Denisok94\SymfonyExportXlsxBundle\Service
  */
-class Xlsx
+class XlsxService
 {
-    private const LABEL_COLUMN = 1;
+    protected const LABEL_COLUMN = 1;
     private const DATE_PARTS = [
         'd' => 'D',
         'm' => 'M',
@@ -38,22 +38,21 @@ class Xlsx
     ];
 
     /** @var string default DateTime format */
-    private $dateTimeFormat;
+    protected $dateTimeFormat;
     /** @var  Spreadsheet */
-    private $phpExcelObject;
+    protected $phpExcelObject;
     /** @var array */
-    private $headerColumns = [];
+    protected $headerColumns = [];
     /** @var string */
-    private $file;
+    protected $file;
     /** @var int */
-    private $position;
+    protected $position = 2;
 
     /**
      * @param string $dateTimeFormat
      */
     public function __construct(string $dateTimeFormat = 'r')
     {
-        $this->position = 2;
         $this->dateTimeFormat = $dateTimeFormat;
     }
 
@@ -199,7 +198,7 @@ class Xlsx
      * @param int $number
      * @return string
      */
-    private static function formatColumnName(int $number): string
+    protected static function formatColumnName(int $number): string
     {
         for ($char = ""; $number >= 0; $number = intval($number / 26) - 1) {
             $char = chr($number % 26 + 0x41) . $char;
@@ -210,7 +209,7 @@ class Xlsx
     /**
      * Makes header bold
      */
-    private function setBoldLabels()
+    protected function setBoldLabels()
     {
         $this->getActiveSheet()->getStyle(
             sprintf(
@@ -226,7 +225,7 @@ class Xlsx
      * @param string $column
      * @param string $value
      */
-    private function setCellValue($column, $value)
+    protected function setCellValue($column, $value)
     {
         $this->getActiveSheet()->setCellValue($column, $value);
     }
@@ -236,7 +235,7 @@ class Xlsx
      * @param string $column
      * @param string $value
      */
-    private function setHeader($column, $value)
+    protected function setHeader($column, $value)
     {
         $this->setCellValue($column . self::LABEL_COLUMN, $value);
         $this->getActiveSheet()->getColumnDimension($column)->setAutoSize(true);
@@ -248,7 +247,7 @@ class Xlsx
      * @param string $name
      * @return string
      */
-    private function getColumn($name)
+    protected function getColumn($name)
     {
         return $this->headerColumns[$name] . $this->position;
     }
