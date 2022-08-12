@@ -6,4 +6,11 @@ services:
 
     Denisok94\SymfonyExportXlsxBundle\:
         resource: '../../*'
-        exclude: '../../{DependencyInjection,Resources}'
+        exclude: '../../{DependencyInjection,Resources,Writer}'
+
+    
+    # sonata.exporter.writer.xlsx:
+    #     class: Denisok94\SymfonyExportXlsxBundle\Writer\XlsxWriter
+    #     arguments: ["php://output"]
+    #     tags:
+    #         - { name: sonata.exporter.writer }
