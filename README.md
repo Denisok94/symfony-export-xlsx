@@ -4,9 +4,15 @@ Except:
 - PHPOffice\PHPExcel has been replaced with PHPOffice\PhpSpreadsheet;
 - The class is used as a service to be able to use it anywhere and make changes to the file.
 
-![https://img.shields.io/badge/license-MIT-green](https://img.shields.io/badge/license-MIT-green)
+![](https://img.shields.io/badge/license-MIT-green)
 
-# install
+0. [Install](#Install)
+1. [Use Service](#Use-Service)
+2. [Customization](#Customization)
+3. [Use in SonataAdmin Export](#Use-in-SonataAdmin-Export)
+4. [Errors](#Errors)
+
+# Install
 
 Run:
 
@@ -28,7 +34,15 @@ composer update
 php composer.phar update
 ```
 
-# Use
+# Use Service
+
+| Method | Parameters | Return | Description |
+|----------------|:---------:|:---------:|:----------------|
+| setFile() | string | self |  |
+| setDateTimeFormat() | string | self |  |
+| open() | - | - |  |
+| write() | array | - |  |
+| close() | - | - |  |
 
 ```php
 namespace App\Controller;
@@ -36,16 +50,16 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use \Denisok94\SymfonyExportXlsxBundle\Service\Xlsx;
+use \Denisok94\SymfonyExportXlsxBundle\Service\XlsxService;
 
 class ExportController extends AbstractController
 {
-    /** @var Xlsx */
+    /** @var XlsxService */
     private $export;
     /**
-     * @param Xlsx $export
+     * @param XlsxService $export
      */
-    public function __construct(Xlsx $export)
+    public function __construct(XlsxService $export)
     {
         $this->export = $export;
     }
@@ -71,16 +85,8 @@ class ExportController extends AbstractController
 ```
 ![](doc/0000.PNG)
 
-| Method | Parameters | Return | Description |
-|----------------|:---------:|:---------:|:----------------|
-| setFile() | string | self |  |
-| setDateTimeFormat() | string | self |  |
-| open() | - | - |  |
-| write() | array | - |  |
-| close() | - | - |  |
 
-
-# Style
+# Customization
 
 | Method | Return  | Official Documentation |
 |----------------|:---------:|:----------------|
@@ -135,3 +141,55 @@ public function index(): Response
 ```
 
 ![](doc/0001.PNG)
+
+# Use in SonataAdmin Export
+
+Install if missing `SonataExporterBundle`
+```bash
+composer require sonata-project/exporter
+```
+Minimum version __`doctrine/orm`: 2.8__
+
+add in `config`:
+```yaml
+# ~config/packages/sonata_exporter.yaml
+services:
+  sonata.exporter.writer.xlsx:
+    class: Denisok94\SymfonyExportXlsxBundle\Writer\XlsxWriter
+    arguments: ["php://output"]
+    tags:
+      - { name: sonata.exporter.writer }
+```
+
+
+add in `YourAdmin` class [according to the documentation](https://docs.sonata-project.org/projects/SonataAdminBundle/en/4.x/reference/action_export/):
+```php
+public function getExportFormats(): array
+{
+    return ['xlsx'];
+}
+```
+and if you need to configure the fields and their translation
+```php
+protected function configureExportFields(): array
+{
+    // example:
+    return [
+        $this->trans('export.title') => 'title',
+        $this->trans('export.anons') => 'text',
+        $this->trans('export.date') => 'date'
+    ];
+}
+```
+# Errors
+
+If you see the error:
+```
+Attempted to call an undefined method named "toIterable" of class "Doctrine\ORM\Query"
+```
+Then make sure that the __`doctrine/orm`__ version is __`2.8`__ or __higher__.
+
+You may need to update:
+- sonata-project/admin-bundle: ~`3.*`
+- sonata-project/doctrine-orm-admin-bundle: ~`3.*`
+- doctrine/doctrine-bundle: ~`^2.3`
