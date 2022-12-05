@@ -1,7 +1,8 @@
 {
     "name": "denisok94/symfony-export-xlsx",
-    "description": "Symfony export for excel",
-    "type": "library",
+    "description": "Symfony export for excel(.xlsx)",
+    "keywords": ["symfony export", "symfony export excel", "symfony export xlsx", "export xlsx", "symfony xlsx", "SonataAdmin export excel", "SonataAdmin export xlsx", "SonataAdmin xlsx"],
+    "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
