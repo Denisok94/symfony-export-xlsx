@@ -46,7 +46,7 @@ class XlsxService
     /** @var string */
     protected $file;
     /** @var int */
-    protected $position = 2;
+    public $position = 2;
 
     /**
      * @param string $dateTimeFormat
