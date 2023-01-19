@@ -2,38 +2,38 @@
 
 namespace Denisok94\SymfonyExportXlsxBundle\Model;
 
-use RuntimeException;
+use Denisok94\SymfonyExportXlsxBundle\Exception\ExportException;
 use Denisok94\SymfonyExportXlsxBundle\Model\ExportItemInterface;
-use Denisok94\SymfonyExportXlsxBundle\Service\ExportServiceInterface;
+use Denisok94\SymfonyExportXlsxBundle\Export\ExportInterface;
 
 interface ExportBaseInterface
 {
   /**
    * Массив поддерживаемых типов экспорта
    * @return array
-   * @throws RuntimeException
+   * @throws ExportException
    */
   public function getExportType(): array;
 
   /**
    * Класс сервиса экспорта
-   * @return ExportServiceInterface
-   * @throws RuntimeException
+   * @return ExportInterface
+   * @throws ExportException
    */
-  public function getExportService(): ExportServiceInterface;
+  public function getExportService(): ExportInterface;
 
   /**
    * Тип/формат выбранного экспорта
    * @param string $type 
    * @return self
-   * @throws RuntimeException
+   * @throws ExportException
    */
   public function setType(string $type): self;
 
   /**
    * Начальное название файла
    * @return string
-   * @throws RuntimeException
+   * @throws ExportException
    */
   public function getFileName(): string;
 
@@ -41,38 +41,59 @@ interface ExportBaseInterface
    * Какие-то исходные данные
    * @param mixed $data массив готовых данных
    * @return array
-   * @throws RuntimeException
+   * @throws ExportException
    */
   public function setRawData($data): array;
+  
+  /**
+   * исходные данные
+   * @return mixed|null
+   * @throws ExportException
+   */
+  public function getRawData(): ?mixed;
+
+  /**
+   * Сколько будет данных
+   * @return integer
+   * @throws ExportException
+   */
+  public function getCountItems(): int;
 
   /**
    * Готовые данные для вставки в файл экспорта
    * @param mixed $item 
    * @return ExportItemInterface
-   * @throws RuntimeException
+   * @throws ExportException
    */
   public function getItem($item): ExportItemInterface;
 
   /**
-   * 
-   * @param mixed $item
-   * @param mixed $result
-   * @throws RuntimeException
+   * Подготовка к экспорту
+   * @param ExportItemInterface $export объект экспорта
+   * @throws ExportException
    */
-  public function preCallbackItem($item, $result): void;
+  public function preCallback(ExportItemInterface $export): void;
 
   /**
-   * 
-   * @param mixed $item
-   * @param mixed $result
-   * @throws RuntimeException
+   * @param mixed $item 
+   * @param mixed $result объект экспорта
+   * @param int $i
+   * @throws ExportException
    */
-  public function postCallbackItem($item, $result): void;
+  public function preCallbackItem($item, $result, $i): void;
+
+  /**
+   * @param mixed $item
+   * @param mixed $result объект экспорта
+   * @param int $i
+   * @throws ExportException
+   */
+  public function postCallbackItem($item, $result, $i): void;
 
   /**
    * Получить готовый объект/файл полученного экспорта
-   * @param mixed $result
-   * @throws RuntimeException
+   * @param mixed $export объект экспорта
+   * @throws ExportException
    */
   public function callback($result): void;
 }

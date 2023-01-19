@@ -2,10 +2,10 @@
 
 namespace Denisok94\SymfonyExportXlsxBundle\Model;
 
-use RuntimeException;
+use Denisok94\SymfonyExportXlsxBundle\Exception\ExportException;
 use Denisok94\SymfonyExportXlsxBundle\Model\ExportBaseInterface;
-use Denisok94\SymfonyExportXlsxBundle\Service\TableService;
-use Denisok94\SymfonyExportXlsxBundle\Service\ExportServiceInterface;
+use Denisok94\SymfonyExportXlsxBundle\Export\TableExport;
+use Denisok94\SymfonyExportXlsxBundle\Export\ExportInterface;
 use Denisok94\SymfonyExportXlsxBundle\Service\XlsxService;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -48,25 +48,32 @@ abstract class BaseExport implements ExportBaseInterface
     /**
      * {@inheritdoc}
      */
-    public function getExportService(): ExportServiceInterface
+    public function getExportService(): ExportInterface
     {
         if (in_array($this->type, self::TABLE_EXPORTS)) {
-            return new TableService();
+            return new TableExport();
         }
-        throw new RuntimeException('api.export.error.format');
+        throw new ExportException('api.export.error.format');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function preCallbackItem($item, $result): void
+    public function preCallback(ExportItemInterface $export): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function postCallbackItem($item, $result): void
+    public function preCallbackItem($item, $result, $i): void
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postCallbackItem($item, $result, $i): void
     {
     }
 

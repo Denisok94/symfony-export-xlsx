@@ -1,30 +1,31 @@
 <?php
 
-namespace Denisok94\SymfonyExportXlsxBundle\Service;
+namespace Denisok94\SymfonyExportXlsxBundle\Export;
 
-use RuntimeException;
+use Denisok94\SymfonyExportXlsxBundle\Exception\ExportException;
 use Denisok94\SymfonyExportXlsxBundle\Model\ExportBaseInterface;
 use Denisok94\SymfonyExportXlsxBundle\Model\ExportItemInterface;
 
 /**
- * interface ExportServiceInterface
- * @package Denisok94\SymfonyExportXlsxBundle\Service
+ * interface ExportInterface
+ * @package Denisok94\SymfonyExportXlsxBundle\Export
  */
-interface ExportServiceInterface
+interface ExportInterface
 {
   /**
    * Предварительная подготовка, создание файла экспорта
    * @return self
-   * @throws RuntimeException
+   * @throws ExportException
    */
   public function start(): self;
 
   /**
    * Добавить данные в экспорт
    * @param ExportItemInterface $item
-   * @throws RuntimeException
+   * @param int $i
+   * @throws ExportException
    */
-  public function parse(ExportItemInterface $item);
+  public function parse(ExportItemInterface $item, $i);
   
   /**
    * Объект/файл полученного экспорта
@@ -34,7 +35,7 @@ interface ExportServiceInterface
 
   /**
    * Завершить/закрыть экспорта
-   * @throws RuntimeException
+   * @throws ExportException
    */
   public function end();
 
@@ -44,7 +45,7 @@ interface ExportServiceInterface
    * Тип/формат экспорта
    * @param string $type 
    * @return self
-   * @throws RuntimeException
+   * @throws ExportException
    */
   public function setType(string $type): self;
 

@@ -1,17 +1,17 @@
 <?php
 
-namespace Denisok94\SymfonyExportXlsxBundle\Service;
+namespace Denisok94\SymfonyExportXlsxBundle\Export;
 
-use RuntimeException;
+use Denisok94\SymfonyExportXlsxBundle\Exception\ExportException;
 use Denisok94\SymfonyExportXlsxBundle\Service\XlsxService;
 use Denisok94\SymfonyExportXlsxBundle\Model\ExportBaseInterface;
 use Denisok94\SymfonyExportXlsxBundle\Model\ExportItemInterface;
 
 /**
- * Class TableService
- * @package Denisok94\SymfonyExportXlsxBundle\Service
+ * Class TableExport
+ * @package Denisok94\SymfonyExportXlsxBundle\Export
  */
-class TableService implements ExportServiceInterface
+class TableExport implements ExportInterface
 {
     const CSV = 'csv';
     const XLS = 'xls';
@@ -30,7 +30,7 @@ class TableService implements ExportServiceInterface
 
     /**
      * @return self
-     * @throws RuntimeException
+     * @throws ExportException
      */
     public function start(): self
     {
@@ -83,9 +83,10 @@ class TableService implements ExportServiceInterface
 
     /**
      * @param ExportItemInterface $item
-     * @throws RuntimeException
+     * @param int $i
+     * @throws ExportException
      */
-    public function parse(ExportItemInterface $item)
+    public function parse(ExportItemInterface $item, $i)
     {
         if (!is_array($item->getPageHeaders()) or !is_array($item->getPageData())) {
             throw new \Exception("perhaps, getPageData and/or getPageHeaders return not array: ");
@@ -104,7 +105,7 @@ class TableService implements ExportServiceInterface
 
     /**
      * @param array $pages
-     * @throws RuntimeException|\Exception
+     * @throws ExportException|\Exception
      */
     public function addInExport(array $pages)
     {
@@ -138,7 +139,7 @@ class TableService implements ExportServiceInterface
     }
 
     /**
-     * @throws RuntimeException
+     * @throws ExportException
      */
     public function end()
     {
@@ -159,7 +160,7 @@ class TableService implements ExportServiceInterface
      * Set the value of type
      * @param string $type 
      * @return self
-     * @throws RuntimeException
+     * @throws ExportException
      */
     public function setType(string $type): self
     {
@@ -167,7 +168,7 @@ class TableService implements ExportServiceInterface
             $this->type = $type;
             return $this;
         }
-        throw new RuntimeException('api.export.error.type');
+        throw new ExportException('api.export.error.type');
     }
 
     /**

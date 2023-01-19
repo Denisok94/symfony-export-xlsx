@@ -2,7 +2,7 @@
 
 namespace Denisok94\SymfonyExportXlsxBundle\Manager\Traits;
 
-use RuntimeException;
+use Denisok94\SymfonyExportXlsxBundle\Exception\ExportException;
 use Denisok94\SymfonyExportXlsxBundle\Model\ExportBaseInterface;
 
 /**
@@ -16,7 +16,7 @@ trait Export
      * @param mixed $data
      * @param ExportBaseInterface $exportClass
      * @return array [file, name]
-     * @throws RuntimeException
+     * @throws ExportException
      */
     public function export(string $type, $data, ExportBaseInterface $exportClass): array
     {
@@ -25,15 +25,16 @@ trait Export
             $items = $exportClass->setRawData($data);
             $exportService->setType($type)->setExportClass($exportClass)->start();
 
-            foreach ($items as $item) {
-                $exportClass->preCallbackItem($item, $exportService->getResult());
-                $exportService->parse($exportClass->getItem($item));
-                $exportClass->postCallbackItem($item, $exportService->getResult());
+            $exportClass->preCallback($exportService->getResult());
+            foreach ($items as $i => $item) {
+                $exportClass->preCallbackItem($item, $exportService->getResult(), $i);
+                $exportService->parse($exportClass->getItem($item), $i);
+                $exportClass->postCallbackItem($item, $exportService->getResult(), $i);
             }
             $exportClass->callback($exportService->getResult());
             $exportService->end();
             return [$exportService->getFile(), $exportService->getFileName()];
         }
-        throw new RuntimeException('api.export.error.type');
+        throw new ExportException('api.export.error.type');
     }
 }
