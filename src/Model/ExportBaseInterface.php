@@ -47,10 +47,10 @@ interface ExportBaseInterface
   
   /**
    * исходные данные
-   * @return mixed|null
+   * @return mixed
    * @throws ExportException
    */
-  public function getRawData(): ?mixed;
+  public function getRawData(): mixed;
 
   /**
    * Сколько будет данных
