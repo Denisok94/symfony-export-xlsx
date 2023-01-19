@@ -70,9 +70,9 @@ interface ExportBaseInterface
   /**
    * Подготовка к экспорту
    * @param ExportItemInterface $export объект экспорта
-   * @throws ExportException
+   * @throws ExportInterface
    */
-  public function preCallback(ExportItemInterface $export): void;
+  public function preCallback(ExportInterface $export): void;
 
   /**
    * @param mixed $item 

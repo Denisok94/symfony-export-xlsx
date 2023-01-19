@@ -59,7 +59,7 @@ abstract class BaseExport implements ExportBaseInterface
     /**
      * {@inheritdoc}
      */
-    public function preCallback(ExportItemInterface $export): void
+    public function preCallback(ExportInterface $export): void
     {
     }
 

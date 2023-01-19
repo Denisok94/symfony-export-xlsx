@@ -25,7 +25,7 @@ trait Export
             $items = $exportClass->setRawData($data);
             $exportService->setType($type)->setExportClass($exportClass)->start();
 
-            $exportClass->preCallback($exportService->getResult());
+            $exportClass->preCallback($exportService);
             foreach ($items as $i => $item) {
                 $exportClass->preCallbackItem($item, $exportService->getResult(), $i);
                 $exportService->parse($exportClass->getItem($item), $i);
