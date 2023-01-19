@@ -13,20 +13,21 @@ use Denisok94\SymfonyExportXlsxBundle\Model\ExportItemInterface;
  */
 class TableExport implements ExportInterface
 {
-    const CSV = 'csv';
-    const XLS = 'xls';
-    const XLSX = 'xlsx';
-    const EXPORTS = [self::CSV, self::XLS, self::XLSX];
+    public const CSV = 'csv';
+    public const XLS = 'xls';
+    public const XLSX = 'xlsx';
+    public const EXPORTS = [self::CSV, self::XLS, self::XLSX];
 
     /** @var ExportInterface */
-    private $exportClass;
+    public $exportClass;
     /**  @var XlsxService|resource */
-    private $export;
+    public $export;
     /** @var string */
-    private $type;
+    public $type;
     /** @var string */
-    private $fileName;
-    private $file;
+    public $fileName;
+    public $file;
+    public $pages = [];
 
     /**
      * @return self
@@ -78,8 +79,6 @@ class TableExport implements ExportInterface
             $this->export->getActiveSheet()->setTitle($name);
         }
     }
-
-    private $pages = [];
 
     /**
      * @param ExportItemInterface $item
