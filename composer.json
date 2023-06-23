@@ -12,7 +12,7 @@
     ],
     "version": "0.0.5",
     "require": {
-        "denisok94/helper-composer": "^0.0.7",
+        "denisok94/helper-composer": "^0.0.8",
         "phpoffice/phpspreadsheet": "^1.23"
     },
     "autoload": {
