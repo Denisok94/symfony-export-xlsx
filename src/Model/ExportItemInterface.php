@@ -5,7 +5,7 @@ namespace Denisok94\SymfonyExportXlsxBundle\Model;
 interface ExportItemInterface
 {
     /**
-     * Задать название таблицы
+     * Название таблицы
      * @return string
      */
     public function getPageName(): string;

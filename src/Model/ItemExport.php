@@ -10,23 +10,63 @@ use Denisok94\SymfonyExportXlsxBundle\Model\ExportItemInterface;
  */
 class ItemExport implements ExportItemInterface
 {
-    public string $pageName;
-    public $pageData;
-    public $pageHeaders;
+    /**
+     * Название страницы
+     * @var string
+     */
+    public string $pageName = '';
 
     /**
-     * Get the value of pageData
-     * @return mixed
+     * Массив с данными
+     * @var array
+     * ```php
+     * $item = [
+     *  'name' => 'Ivanov',
+     *  'value' => 32
+     * ];
+     * ```
      */
-    public function getPageData(): mixed
+    public array $pageData = [];
+
+    /**
+     * Список заголовков столбцов 
+     * @var array
+     * ```php
+     * $headers = [
+     *  'name',
+     *  'value',
+     * ];
+     * ```
+     */
+    public array $pageHeaders = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageName(): string
+    {
+        return $this->pageName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPageName(string $pageName): self
+    {
+        $this->pageName = $pageName;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPageData(): array
     {
         return $this->pageData;
     }
 
     /**
-     * Set the value of pageData
-     * @param mixed $pageData 
-     * @return self
+     * {@inheritdoc}
      */
     public function setPageData($pageData): self
     {
@@ -35,42 +75,19 @@ class ItemExport implements ExportItemInterface
     }
 
     /**
-     * Get the value of pageHeaders
-     * @return mixed
+     * {@inheritdoc}
      */
-    public function getPageHeaders(): mixed
+    public function getPageHeaders(): array
     {
         return $this->pageHeaders;
     }
 
     /**
-     * Set the value of pageHeaders
-     * @param mixed $pageHeaders 
-     * @return self
+     * {@inheritdoc}
      */
     public function setPageHeaders($pageHeaders): self
     {
         $this->pageHeaders = $pageHeaders;
-        return $this;
-    }
-
-    /**
-     * Get the value of pageName
-     * @return string
-     */
-    public function getPageName(): string
-    {
-        return $this->pageName;
-    }
-
-    /**
-     * Set the value of pageName
-     * @param string $pageName 
-     * @return self
-     */
-    public function setPageName(string $pageName): self
-    {
-        $this->pageName = $pageName;
         return $this;
     }
 }

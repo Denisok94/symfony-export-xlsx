@@ -85,7 +85,6 @@ class ExportController extends AbstractController
 ```
 ![](doc/0000.PNG)
 
-
 # Customization
 
 | Method | Return  | Official Documentation |
@@ -94,8 +93,17 @@ class ExportController extends AbstractController
 | getSpreadsheet() | Class Spreadsheet | https://phpoffice.github.io/PhpSpreadsheet/namespaces/phpoffice-phpspreadsheet.html |
 | getActiveSheet() | Class Worksheet | https://phpoffice.github.io/PhpSpreadsheet/namespaces/phpoffice-phpspreadsheet-worksheet.html |
 
-
 ```php
+use \Denisok94\SymfonyExportXlsxBundle\Service\XlsxService;
+/** @var XlsxService */
+private $export;
+/**
+ * @param XlsxService $export
+ */
+public function __construct(XlsxService $export)
+{
+    $this->export = $export;
+}
 /**
  * @return Response
  */
@@ -161,7 +169,6 @@ services:
       - { name: sonata.exporter.writer }
 ```
 
-
 add in `YourAdmin` class [according to the documentation](https://docs.sonata-project.org/projects/SonataAdminBundle/en/4.x/reference/action_export/):
 ```php
 public function getExportFormats(): array
@@ -181,6 +188,7 @@ protected function configureExportFields(): array
     ];
 }
 ```
+
 # Errors
 
 If you see the error:

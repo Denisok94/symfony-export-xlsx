@@ -61,11 +61,11 @@ interface ExportBaseInterface
 
   /**
    * Готовые данные для вставки в файл экспорта
-   * @param mixed $item 
+   * @param mixed $line 
    * @return ExportItemInterface
    * @throws ExportException
    */
-  public function getItem($item): ExportItemInterface;
+  public function getItem($line): ExportItemInterface;
 
   /**
    * Подготовка к экспорту
@@ -75,25 +75,25 @@ interface ExportBaseInterface
   public function preCallback(ExportInterface $export): void;
 
   /**
-   * @param mixed $item 
-   * @param mixed $result объект экспорта
+   * @param mixed $line
+   * @param ExportInterface $export объект экспорта
    * @param int $i
    * @throws ExportException
    */
-  public function preCallbackItem($item, $result, $i): void;
+  public function preCallbackItem($line, $export, $i): void;
 
   /**
-   * @param mixed $item
-   * @param mixed $result объект экспорта
+   * @param mixed $line
+   * @param ExportInterface $export объект экспорта
    * @param int $i
    * @throws ExportException
    */
-  public function postCallbackItem($item, $result, $i): void;
+  public function postCallbackItem($line, $export, $i): void;
 
   /**
    * Получить готовый объект/файл полученного экспорта
-   * @param mixed $export объект экспорта
+   * @param ExportInterface $export объект экспорта
    * @throws ExportException
    */
-  public function callback($result): void;
+  public function callback($export): void;
 }

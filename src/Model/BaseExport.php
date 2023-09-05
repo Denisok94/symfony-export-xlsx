@@ -8,6 +8,7 @@ use Denisok94\SymfonyExportXlsxBundle\Export\TableExport;
 use Denisok94\SymfonyExportXlsxBundle\Export\ExportInterface;
 use Denisok94\SymfonyExportXlsxBundle\Service\XlsxService;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\RichText\RichText;
 
 abstract class BaseExport implements ExportBaseInterface
 {
@@ -66,24 +67,55 @@ abstract class BaseExport implements ExportBaseInterface
     /**
      * {@inheritdoc}
      */
-    public function preCallbackItem($item, $result, $i): void
+    public function preCallbackItem($item, $export, $i): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function postCallbackItem($item, $result, $i): void
+    public function getItem($line): ItemExport
+    {
+        $item = [];
+        try {
+            $this->parse($item, $line);
+        } catch (\Throwable $th) {
+            throw new ExportException($th->getMessage());
+        }
+        return (new ItemExport())->setPageName('Лист 1')->setPageHeaders(array_keys($item))->setPageData($item);
+    }
+
+    /**
+     * @param array $array
+     * @param array $line
+     */
+    public function parse(&$array, $line): void
+    {
+        foreach ($line as $key => $value) {
+            if ($value instanceof RichText) {
+                $array[$key] = $value;
+            } elseif (!is_object($value) && !is_array($value)) {
+                $array[$key] = $value;
+            } elseif (is_object($value) || is_array($value)) {
+                $this->parse($array, $value);
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function postCallbackItem($item, $export, $i): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function callback($result): void
+    public function callback($export): void
     {
-        if ($result instanceof XlsxService) {
-            $worksheet = $result->getActiveSheet();
+        if ($export instanceof XlsxService) {
+            $worksheet = $export->getActiveSheet();
             $x = $y = 1;
             while ($worksheet->getCell([$y, 1])->getValue() != null) {
                 $y++;

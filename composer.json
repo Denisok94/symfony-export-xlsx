@@ -10,7 +10,7 @@
             "email": "denisok94@inbox.ru"
         }
     ],
-    "version": "0.0.6",
+    "version": "0.0.7",
     "require": {
         "denisok94/helper-composer": "^0.0.7",
         "phpoffice/phpspreadsheet": "^1.23"
