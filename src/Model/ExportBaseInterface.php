@@ -83,6 +83,7 @@ interface ExportBaseInterface
   public function preCallbackItem($line, $export, $i): void;
 
   /**
+   * После добавления строки в таблицу
    * @param mixed $line
    * @param ExportInterface $export объект экспорта
    * @param int $i
